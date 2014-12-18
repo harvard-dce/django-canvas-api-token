@@ -2,7 +2,7 @@
 django-canvas-api-token
 =======================
 
-A reusable django app for handling the oauth workflow of generating per-user
+A reusable django app for handling the workflow of generating per-user
 Canvas API oauth tokens. The app assumes that your django project is using the
 `django_auth_lti <https://github.com/Harvard-University-iCommons/django-auth-lti>`_
 middleware.
@@ -43,7 +43,7 @@ where ...
 
 License
 -------
-django-canvas-api-token is licensed under the Apache 2.0 license
+django-canvas-api-token is licensed under the BSD license
 
 Copyright
 ---------
