@@ -21,7 +21,7 @@ setup(
     name='django-canvas-api-token',
     version=version,
     packages=['canvas_api_token'],
-    url='http://github.com/harvard_dce/django-canvas-api-token',
+    url='https://github.com/harvard-dce/django-canvas-api-token',
     license='BSD',
     author='Jay Luker',
     author_email='jay_luker@harvard.edu',
