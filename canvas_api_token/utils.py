@@ -11,7 +11,7 @@ def absolute_uri(request, url_pattern):
     path = reverse(url_pattern)
     return request.build_absolute_uri(path)
 
-def canvas_uri(request, path=None, params=None):
+def canvas_uri(request, path="", params={}):
     """
     Assembles a uri for the canvas tool consumer instance.
     Assumes presence of 'LTI_LAUNCH' params in the session
@@ -27,15 +27,15 @@ def canvas_uri(request, path=None, params=None):
         msg = "LTI_LAUNCH params missing from request.session: " + str(e)
         log.error(msg)
         raise SuspiciousOperation(msg)
-    params = params and urllib.urlencode(params) or None
+    params = urllib.urlencode(params)
     url_parts = urlparse(launch_pres_return_url)
     return urlunparse([
         url_parts.scheme,
         url_parts.netloc,
         path,
-        None,
+        "",
         params,
-        None
+        ""
     ])
 
 def get_client_credentials(request):
