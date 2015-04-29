@@ -19,10 +19,10 @@ def api_token_required(completed_view=None):
 
             # handle loading existing token based on username
             try:
-                token = CanvasApiToken.objects.get(user_id=request.user.username)
+                token = CanvasApiToken.objects.get(user=request.user)
                 request.session['CANVAS_API_OAUTH_TOKEN'] = token.token
                 return view_func(request, *args, **kwargs)
-            except ObjectDoesNotExist, e:
+            except CanvasApiToken.DoesNotExist, e:
                 pass
 
             if request.method != 'POST':

@@ -3,6 +3,7 @@ from django.core.exceptions import SuspiciousOperation, ImproperlyConfigured
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from urlparse import urlparse, urlunparse
+from models import CanvasDeveloperKey
 
 import logging
 log = logging.getLogger(__name__)
@@ -46,13 +47,13 @@ def get_client_credentials(request):
     """
     try:
         consumer_key = request.session['OAUTH_CONSUMER_KEY']
-        credentials = settings.LTI_APP_DEVELOPER_KEYS[consumer_key]
+        dev_key = CanvasDeveloperKey.objects.get(consumer_key=consumer_key)
         return {
-            'client_id': credentials['client_id'],
-            'client_secret': credentials['client_secret']
+            'client_id': dev_key.client_id,
+            'client_secret': dev_key.client_secret
         }
-    except KeyError, e:
-        msg = "LIT_APP_DEVELOPER_KEYS config error: " + str(e)
+    except CanvasDeveloperKey.DoesNotExist:
+        msg = "Can't find developer key entry for {}".format(consumer_key)
         log.error(msg)
         raise ImproperlyConfigured(msg)
 

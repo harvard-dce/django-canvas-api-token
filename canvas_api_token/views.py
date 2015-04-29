@@ -67,7 +67,7 @@ def token_retrieve(request):
         return HttpResponseServerError("Failed to fetch generate token: " \
             + str(e))
 
-    user_token = CanvasApiToken(user_id=request.user.username, token=token)
+    user_token = CanvasApiToken(user=request.user, token=token)
     user_token.save()
     request.session['CANVAS_API_OAUTH_TOKEN'] = token
 

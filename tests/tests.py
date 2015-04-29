@@ -3,6 +3,8 @@ from django.http import HttpResponseRedirect, HttpResponseServerError
 from django.test import TestCase
 from mock import MagicMock, patch
 from canvas_api_token.decorators import api_token_required
+from canvas_api_token.models import CanvasDeveloperKey
+from canvas_api_token.utils import get_client_credentials
 from django.test.client import RequestFactory
 from django.contrib.auth.models import User
 from django.contrib.sessions.middleware import SessionMiddleware
@@ -17,6 +19,11 @@ class BaseTestCase(TestCase):
         self.user = User.objects.create_user(
             username='foo', email='foo@example.edu', password='bar'
         )
+        CanvasDeveloperKey(
+            consumer_key='test_consumer',
+            client_id='00000000001',
+            client_secret='my secret'
+        ).save()
 
     def _fake_request(self, path='/', method='GET', params={}):
         if method == 'POST':
@@ -49,7 +56,7 @@ class DecoratorTests(BaseTestCase):
         mock_view = MagicMock()
         decorated_view = self._decorated_view(mock_view)
         request = self._fake_request()
-        token = models.CanvasApiToken(user_id=request.user.username, token='abc123')
+        token = models.CanvasApiToken(user=request.user, token='abc123')
         token.save()
         response = decorated_view(request)
         self.assertTrue(mock_view.called)
@@ -85,6 +92,13 @@ class DecoratorTests(BaseTestCase):
         request = self._fake_request(method='POST')
         response = decorated_view(request)
         self.assertEqual(request.session['CANVAS_API_TOKEN_COMPLETE_REDIRECT_VIEW'], 'baz')
+
+    def test_get_client_credentials(self):
+        request = self._fake_request()
+        request.session['OAUTH_CONSUMER_KEY'] = 'test_consumer'
+        creds = get_client_credentials(request)
+        self.assertEqual(creds['client_id'], '00000000001')
+        self.assertEqual(creds['client_secret'], 'my secret')
 
 
 class ViewTests(BaseTestCase):
