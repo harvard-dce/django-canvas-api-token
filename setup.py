@@ -2,7 +2,7 @@
 import os
 import re
 import codecs
-from setuptools import setup
+from setuptools import setup, find_packages
 
 here = os.path.abspath(os.path.dirname(__file__))
 
@@ -20,7 +20,7 @@ tests_require = ['mock']
 setup(
     name='django-canvas-api-token',
     version=version,
-    packages=['canvas_api_token'],
+    packages=find_packages(exclude=['tests']),
     url='https://github.com/harvard-dce/django-canvas-api-token',
     license='BSD',
     author='Jay Luker',

@@ -24,20 +24,9 @@ Setup
 
     url(r'^canvas_api_token/', include('canvas_api_token.urls'))
 
-3. Add a ``LTI_APP_DEVELOPER_KEYS`` entry to your settings that looks like this:
+3. Run `python manage.py migrate` to ensure db tables are initialized.
+4. Use the admin site to create a `canvas_dev_key` entry using the `consumer_key` and developer key values from your Canvas consumer where ...
 
-.. code-block:: python
-
-    LTI_APP_DEVELOPER_KEYS = {
-        '[oauth-consumer-key]': {
-            'client_id': '[client_id]',
-            'client_secret': '[client_secret]'
-        }
-    }
-
-where ...
-
-* ``oauth_consumer_key`` value is the consumer key used when registering your LTI tool in the Canvas account admin
 * ``client_id`` is the integer client id value of your Canvas `developer key <https://canvas.instructure.com/doc/api/file.oauth.html>`_
 * ``client_secret`` is the random string 'secret' value of your Canvas developer key
 
@@ -47,4 +36,4 @@ django-canvas-api-token is licensed under the BSD license
 
 Copyright
 ---------
-2014 President and Fellows of Harvard College
+2015 President and Fellows of Harvard College

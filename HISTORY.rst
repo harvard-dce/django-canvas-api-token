@@ -18,3 +18,12 @@ Release History
 
 * fixed bug in utils.canvas_uri use of urlunparse
 * added unique index to CanvasApiToken.user_id
+
+0.2.0 (2015-04-28)
+++++++++++++++++++
+
+DB storage of canvas developer keys
+
+* New model: CanvasDeveloperKey
+* enable admin site
+* make CanvasApiToken.user a foreign key into user model
