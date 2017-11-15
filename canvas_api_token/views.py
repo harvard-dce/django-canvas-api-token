@@ -57,6 +57,7 @@ def token_retrieve(request):
         'client_secret': client_cred['client_secret'],
         'code': oauth_code,
         'redirect_uri': redirect_uri,
+        'grant_type': 'authorization_code'
     }
 
     token_retrieve_uri = canvas_uri(request, '/login/oauth2/token')
